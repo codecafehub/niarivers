@@ -12,7 +12,7 @@ export default function Header() {
             <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <div>
                     <Link href="/">
-                        <h1 className="text-2xl font-bold text-gray-800">Nia Rivers</h1>
+                        <h1 className="text-2xl font-bold text-gray-800">Nia Rivers Co</h1>
                     </Link>
                 </div>
                 <div className="hidden md:flex space-x-6 items-center">
