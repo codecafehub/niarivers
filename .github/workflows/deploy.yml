@@ -1,6 +1,5 @@
 name: Deploy Nia Rivers Website
 
-# This workflow runs on any push to the 'main' branch
 on:
   push:
     branches:
@@ -11,11 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code from the repository
+      # Step 1 & 2 are unchanged
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up PHP and cache Composer dependencies
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -26,7 +24,7 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-progress --no-dev --optimize-autoloader
 
-      # Step 3: Set up Node.js and build frontend assets
+      # Step 3 is unchanged
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,26 +37,27 @@ jobs:
       - name: Build Frontend Assets
         run: npm run build
 
-      # Step 4: Deploy built files to the server using SSH
-      # We will exclude the .env file and storage directory to avoid overwriting them
+      # Step 4: MODIFIED - Deploy built files to the server using SSH
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avz --delete"
-          SOURCE: "/"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}  # <-- ADDED THIS LINE
           TARGET: ${{ secrets.PROJECT_PATH }}
+          SOURCE: "/"
+          ARGS: "-avz --delete"
           EXCLUDE: "/.env, /storage/, /node_modules/, /.git/, /.github/"
 
-      # Step 5: Run post-deployment commands on the server
+      # Step 5: MODIFIED - Run post-deployment commands on the server
       - name: Run Post-Deployment Commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}  # <-- ADDED THIS LINE
           script: |
             cd ${{ secrets.PROJECT_PATH }}
             echo "🚀 Running post-deployment commands..."
