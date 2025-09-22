@@ -1,68 +1,14 @@
-name: Deploy Nia Rivers Website
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  deploy:
+create-ssh-job:
+    name: 📂 Run SSH Commands
     runs-on: ubuntu-latest
-
+    needs: web-deploy
     steps:
-      # Step 1 & 2 are unchanged
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: dom, curl, libxml, mbstring, zip, pdo, pdo_mysql, bcmath, soap
-          coverage: none
-
-      - name: Install Composer Dependencies
-        run: composer install --no-progress --no-dev --optimize-autoloader
-
-      # Step 3 is unchanged
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install NPM Dependencies
-        run: npm install
-
-      - name: Build Frontend Assets
-        run: npm run build
-
-      # Step 4: MODIFIED - Deploy built files to the server using SSH
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        with:
-          # SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USER }}
-          REMOTE_PORT: ${{ secrets.SSH_PORT }} 
-          TARGET: ${{ secrets.PROJECT_PATH }}
-          SOURCE: "/"
-          ARGS: "-avz --delete"
-          EXCLUDE: "/.env, /storage/, /node_modules/, /.git/, /.github/"
-
-      # Step 5: MODIFIED - Run post-deployment commands on the server
-      - name: Run Post-Deployment Commands
+      - name: 🚚 Ssh script execution
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          # key: ${{ secrets.SSH_PRIVATE_KEY }} # Uncomment if using SSH key authentication
-          port: ${{ secrets.SSH_PORT }} 
+          host: ${{ secrets.MAIN_HOST }}
+          username: ${{ secrets.MAIN_USERNAME }}
+          port: ${{ secrets.MAIN_PORT }}
+          password: ${{ secrets.MAIN_PASSWORD }}
           script: |
-            cd ${{ secrets.PROJECT_PATH }}
-            echo "🚀 Running post-deployment commands..."
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            php artisan migrate --force
-            echo "✅ Deployment complete!"
+            cd public_html/

@@ -1,13 +1,15 @@
 // resources/js/Components/Header.jsx
-import { Link } from '@inertiajs/react';
+
+import { Link } from '@inertiajs/react'; // You can keep this for the logo and contact button
+import NavLink from '@/Components/NavLink'; // <-- 1. Import our new component
 
 export default function Header() {
     return (
         <header className="
-            bg-white shadow-md           // Your existing classes
-            fixed top-0 left-0 right-0   //  <-- Pin to the top, full width
-            z-50                         //  <-- Ensure it's above other content
-            transition-all duration-300  //  <-- (Optional) For smooth future effects
+            bg-white shadow-md
+            fixed top-0 left-0 right-0
+            z-50
+            transition-all duration-300
         ">
             <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <div>
@@ -15,12 +17,16 @@ export default function Header() {
                         <h1 className="text-2xl font-bold text-gray-800">Nia Rivers Co</h1>
                     </Link>
                 </div>
-                <div className="hidden md:flex space-x-6 items-center">
-                    <Link href="/about" className="text-gray-600 hover:text-blue-600">About Us</Link>
-                    <Link href="/services" className="text-gray-600 hover:text-blue-600">Services</Link>
-                    <Link href="/projects" className="text-gray-600 hover:text-blue-600">Our Work</Link>
-                    <Link href="/careers" className="text-gray-600 hover:text-blue-600">Careers</Link>
+
+                {/* 2. Replace the old Links with our clean NavLink component */}
+                <div className="hidden md:flex space-x-8 items-center">
+                    <NavLink href="/">Home</NavLink>
+                    <NavLink href="/about">About Us</NavLink>
+                    <NavLink href="/services">Services</NavLink>
+                    <NavLink href="/projects">Our Work</NavLink>
+                    <NavLink href="/careers">Careers</NavLink>
                 </div>
+
                 <div>
                      <Link
                         href="/contact"

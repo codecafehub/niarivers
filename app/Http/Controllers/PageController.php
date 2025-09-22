@@ -25,4 +25,14 @@ class PageController extends Controller
                 ]),
         ]);
     }
+
+    public function about()
+    {
+        return Inertia::render('Public/About');
+    }
+
+    public function contact()
+    {
+        return Inertia::render('Public/Contact');
+    }
 }

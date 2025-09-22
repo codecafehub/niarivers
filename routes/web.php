@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContactFormController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Home', [
@@ -16,6 +17,9 @@ use App\Http\Controllers\ProfileController;
 // });
 
 Route::get('/', [PageController::class, 'home'])->name('home'); 
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact.show');
+Route::post('/contact', [ContactFormController::class, 'store'])->name('contact.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
