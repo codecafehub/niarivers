@@ -1,14 +1,83 @@
-create-ssh-job:
-    name: 📂 Run SSH Commands
+name: Deploy Nia Rivers Website
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
-    needs: web-deploy
+
     steps:
-      - name: 🚚 Ssh script execution
-        uses: appleboy/ssh-action@master
+      # Step 1: Check out the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pdo, pdo_mysql, bcmath, soap
+
+      - name: Install Composer Dependencies
+        run: composer install --no-progress --no-dev --optimize-autoloader
+
+      # Step 3: Set up Node.js and build frontend
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Build Frontend Assets
+        run: npm run build
+
+      # Step 4: Deploy and Run Commands on Server
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          # Server Credentials using the new secret names
           host: ${{ secrets.MAIN_HOST }}
           username: ${{ secrets.MAIN_USERNAME }}
-          port: ${{ secrets.MAIN_PORT }}
           password: ${{ secrets.MAIN_PASSWORD }}
+          port: ${{ secrets.MAIN_PORT }}
+          
+          # Script to execute on the server
           script: |
-            cd public_html/
+            echo "🚀 Starting deployment..."
+            cd ${{ secrets.PROJECT_PATH }}
+            
+            echo "🔒 Enabling maintenance mode..."
+            php artisan down || true
+
+            echo "🚚 Pulling latest code from GitHub..."
+            git pull origin master
+
+            echo "📦 Installing Composer dependencies..."
+            composer install --no-dev --optimize-autoloader
+
+            echo "📦 Installing NPM dependencies and building assets..."
+            # Note: We already built assets in the runner, so this is just to be safe.
+            # You can remove `npm install && npm run build` if your build is always consistent.
+            # However, running it ensures server state is correct.
+            npm install
+            npm run build
+            
+            echo "🗃️ Running database migrations..."
+            php artisan migrate --force
+
+            echo "✨ Optimizing application..."
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            
+            echo "✅ Disabling maintenance mode..."
+            php artisan up
+
+            echo "🎉 Deployment complete!"
