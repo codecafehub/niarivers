@@ -1,29 +1,14 @@
-name: Minimal Deployment Test
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  deploy:
-    name: Minimal SCP Deploy Test
+create-ssh-job:
+    name: 📂 Run SSH Commands
     runs-on: ubuntu-latest
-
+    needs: web-deploy
     steps:
-      # Step 1: Check out the repository so we have files to copy
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # Step 2: Attempt to copy all files to the server
-      # Using a single file like README.md is even faster for testing
-      - name: Deploy files using SCP
-        uses: appleboy/scp-action@v0.1.7
+      - name: 🚚 Ssh script execution
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.MAIN_HOST }}
           username: ${{ secrets.MAIN_USERNAME }}
-          password: ${{ secrets.MAIN_PASSWORD }}
           port: ${{ secrets.MAIN_PORT }}
-          source: "." # The entire directory
-          target: ${{ secrets.PROJECT_PATH }}
-          overwrite: true
+          password: ${{ secrets.MAIN_PASSWORD }}
+          script: |
+            cd public_html/
