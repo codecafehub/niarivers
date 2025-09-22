@@ -1,7 +1,19 @@
-create-ssh-job:
+# The 'name' of the workflow
+name: Host Provider SSH Test
+
+# The 'on' trigger, telling it when to run
+on:
+  push:
+    branches:
+      - master
+
+# The REQUIRED 'jobs' section
+jobs:
+  # This is the job they provided, now correctly nested
+  create-ssh-job:
     name: 📂 Run SSH Commands
     runs-on: ubuntu-latest
-    needs: web-deploy
+    
     steps:
       - name: 🚚 Ssh script execution
         uses: appleboy/ssh-action@master
@@ -11,4 +23,12 @@ create-ssh-job:
           port: ${{ secrets.MAIN_PORT }}
           password: ${{ secrets.MAIN_PASSWORD }}
           script: |
+            echo "✅ Successfully connected to the server!"
+            echo "Current directory:"
+            pwd
+            echo "Changing to public_html..."
             cd public_html/
+            echo "New directory:"
+            pwd
+            echo "Listing files:"
+            ls -la
