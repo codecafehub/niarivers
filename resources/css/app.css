@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add the custom animation styles below
+@layer utilities {
+    .animate-marquee {
+        animation: marquee 40s linear infinite;
+    }
+    .animate-marquee-reverse {
+        animation: marquee-reverse 40s linear infinite;
+    }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+} */
+
+/* Custom Marquee Animation */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  /* This is a simple trick to duplicate content for a seamless loop */
+  display: flex;
+  animation: scroll 40s linear infinite;
+}
+
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}

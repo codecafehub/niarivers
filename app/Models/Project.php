@@ -35,4 +35,9 @@ class Project extends Model
                     ? Storage::url($this->cover_image_path)
                     : null;
     }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProjectImage::class);
+    }
 }

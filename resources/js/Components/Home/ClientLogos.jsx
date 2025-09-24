@@ -8,6 +8,18 @@ const logos = [
     { name: 'Quantum Industries', url: 'https://www.quantumindustries.jp/cdn/shop/files/Qi_Logo_Final_Black.png?v=1704609586&width=360' },
 ];
 
+
+
+const LogoItem = ({ url, name }) => (
+    <div className="flex-shrink-0 mx-8 flex justify-center items-center w-48 h-16">
+        <img
+            src={url}
+            alt={name}
+            className="max-h-12 w-auto object-contain filter grayscale opacity-70 transition-all duration-300 ease-in-out"
+        />
+    </div>
+);
+
 export default function ClientLogos() {
     return (
         <div className="bg-gray-100 py-16">
@@ -15,22 +27,23 @@ export default function ClientLogos() {
                 <h2 className="text-center text-3xl font-bold text-gray-800 mb-2">Trusted By Industry Leaders</h2>
                 <p className="text-center text-gray-600 text-lg mb-12">We are proud to partner with a diverse range of clients.</p>
                 {/* Optional: Increase the horizontal gap for more breathing room */}
-                <div className="flex flex-wrap justify-center items-center gap-x-16 gap-y-10">
-                    {logos.map((logo) => (
-                        <img
-                            key={logo.name}
-                            className="
-                                max-h-16 max-w-40  // <-- Increase size & set constraints
-                                w-auto object-contain // <-- Ensure correct scaling
-                                filter grayscale hover:grayscale-0 // <-- Your existing hover effect
-                                transition-all duration-300
-                            "
-                            src={logo.url}
-                            alt={logo.name}
-                        />
-                    ))}
+                <div className="relative mt-10 group" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+                <div className="overflow-hidden whitespace-nowrap">
+                    <div className="animate-marquee">
+                        {/* Render the logos once */}
+                        {logos.map((logo) => (
+                            <LogoItem key={logo.name} {...logo} />
+                        ))}
+                        {/* Render them a second time for the seamless loop */}
+                        {logos.map((logo) => (
+                            <LogoItem key={`${logo.name}-clone`} {...logo} aria-hidden="true" />
+                        ))}
+                    </div>
                 </div>
+            </div>
             </div>
         </div>
     );
 }
+
+

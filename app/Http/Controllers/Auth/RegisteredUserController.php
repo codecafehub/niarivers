@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -34,18 +35,28 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+             'membership_tier' => [
+                'required',
+                'string',
+                Rule::in(['student', 'graduate', 'associate', 'full_membership', 'fellow', 'architectural_technologist']), // Ensures only valid tiers are submitted
+            ],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'membership_tier' => $request->membership_tier,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+        return redirect()->route('payment.show');
 
-        return redirect(route('dashboard', absolute: false));
+        // return redirect(route('dashboard', absolute: false));
     }
 }
+
+
+ 

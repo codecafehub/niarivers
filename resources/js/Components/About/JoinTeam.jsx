@@ -1,9 +1,12 @@
 // resources/js/Components/About/JoinTeam.jsx
 import { Link } from '@inertiajs/react';
+import { useModal } from '@/Context/ModalContext';
 
 const joinImageUrl = "images/about-hero.jpg"; 
+ 
 
 export default function JoinTeam() {
+    const { openModal } = useModal();
     return (
         <section className="relative bg-gray-800 text-white">
             <div
@@ -18,12 +21,12 @@ export default function JoinTeam() {
                     We are always looking for passionate, skilled individuals to join the Nia Rivers family. Discover a career where you can build the future.
                 </p>
                 <div className="mt-8">
-                    <Link
-                        href="/careers" // Links to the future careers page
-                        className="bg-blue-600 text-white font-bold py-3 px-8 rounded hover:bg-blue-700 transition duration-300 text-lg"
+                    <button
+                        onClick={() => openModal('register')}
+                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
                     >
-                        Explore Open Positions
-                    </Link>
+                        Join Us
+                    </button>
                 </div>
             </div>
         </section>

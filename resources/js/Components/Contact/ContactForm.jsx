@@ -2,7 +2,7 @@
 import { useForm } from "@inertiajs/react";
 
 export default function ContactForm() {
-    const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
+    const { data, setData, post, processing, errors, recentlySuccessful, reset } = useForm({
         name: '',
         email: '',
         phone: '',
@@ -12,17 +12,22 @@ export default function ContactForm() {
     const submit = (e) => {
         e.preventDefault();
         post('/contact', {
-            // This tells Inertia to keep the user on the same scroll position after submission
             preserveScroll: true,
             onSuccess: () => {
-                // You can clear the form on success if you want, but Inertia's success message is often enough
-                // reset();
+                // Now we can reset the form fields on success
+                reset();
             },
         });
     };
 
     return (
         <div>
+            {/* You can use 'recentlySuccessful' for a message right here if you prefer! */}
+            {recentlySuccessful && (
+                <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                    Message sent successfully!
+                </div>
+            )}
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Send Us a Message</h2>
             <form onSubmit={submit} className="space-y-6">
                 <div>
@@ -42,7 +47,9 @@ export default function ContactForm() {
                 </div>
                 <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
+                    {/* THIS IS THE FIX */}
                     <textarea id="message" value={data.message} onChange={e => setData('message', e.target.value)} rows="5" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                    {/* ADDED THIS LINE TO SHOW THE VALIDATION ERROR */}
                     {errors.message && <div className="text-sm text-red-600 mt-1">{errors.message}</div>}
                 </div>
                 <div>

@@ -12,6 +12,10 @@ import CTASection from "@/Components/Home/CTASection";
 import StatsSection from "@/Components/Home/StatsSection";
 import ClientLogos from "@/Components/Home/ClientLogos";
 import AvailableProperties from "@/Components/Home/AvailableProperties";
+import TeamSection from "@/Components/About/TeamSection";
+// import { Head, Link } from "@inertiajs/react";
+import HomeTeamSection from "@/Components/Home/HomeTeamSection";   
+import PricingSection from "@/Components/Home/PricingSection"; 
 
 // --- STATIC DATA ---
 // Let's create some sample project data.
@@ -39,6 +43,8 @@ const staticProjects = [
         cover_image_url: 'https://picsum.photos/id/30/800/600',
     },
 ];
+
+
 
 // Let's create some sample property data.
 // This can be used later if we add a Properties component.
@@ -161,7 +167,7 @@ const staticTestimonials = [
 // --- END OF STATIC DATA ---
 
 // Notice we remove the `featuredProjects` prop from the function definition for now.
-export default function Home() {
+export default function Home( { teamMembers } ) {
     return (
         <PublicLayout>
             <Head title="Home | Nia Rivers Construction" />
@@ -171,10 +177,17 @@ export default function Home() {
             <AboutSection />
             <StatsSection />
             <FeaturedProjects projects={staticProjects} />
-            <AvailableProperties properties={staticProperties} />
+               {/* Your check here is also perfect */}
+            {teamMembers && teamMembers.length > 0 && (
+                <HomeTeamSection teamMembers={teamMembers} />
+            )}
+            
+
+            {/* <AvailableProperties properties={staticProperties} /> */}
             <VideoSection videos={staticVideos} />
             <ClientLogos /> 
-            <TestimonialSection testimonials={staticTestimonials} /> 
+            {/* <TestimonialSection testimonials={staticTestimonials} />  */}
+            <PricingSection />
             <CTASection />
 
             {/* We can add a Call To Action component later */}

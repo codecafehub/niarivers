@@ -2,7 +2,7 @@
 
 import { Link } from '@inertiajs/react';
 
-const aboutImageUrl = "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1574&q=80";
+const aboutImageUrl = "images/about-hero.jpg";
 
 export default function AboutSection() {
     return (

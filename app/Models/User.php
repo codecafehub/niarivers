@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'membership_tier',
+        'payment_status',
+        'payment_proof_path',
     ];
 
     /**

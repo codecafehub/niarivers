@@ -34,9 +34,11 @@ const values = [
 
 export default function CoreValues() {
     return (
-        <section className="bg-white py-16">
+        <section className="bg-white py-20">
             <div className="container mx-auto px-6">
+                <h2 className="text-4xl text-center p-5 font-bold text-gray-800">Our Core Values</h2>
                  <div className="grid md:grid-cols-3 gap-12 text-center">
+                    
                     {values.map((value, index) => (
                         <div key={index} className="flex flex-col items-center">
                             <div className="mb-4">{value.icon}</div>
