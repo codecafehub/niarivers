@@ -1,14 +1,45 @@
 // resources/js/Layouts/PublicLayout.jsx
 import Header from '@/Components/Header';
 import Footer from '@/Components/Footer';
-import Modal from '@/Components/Modal'; // Our generic modal component
+import Modal from '@/Components/Modal';
 import { ModalProvider, useModal } from '@/Context/ModalContext';
 import LoginForm from '@/Components/Auth/LoginForm';
 import RegisterForm from '@/Components/Auth/RegisterForm';
+import { useState, useEffect } from 'react'; // <-- Import hooks
+import BackToTopButton from '@/Components/BackToTopButton'; // <-- Import our new button
 
-// We create a new component here to get access to the context
+// The inner component that handles layout and modals
 const AppContent = ({ children }) => {
     const { modalState, closeModal } = useModal();
+    
+    // --- STATE FOR BACK TO TOP BUTTON ---
+    const [isVisible, setIsVisible] = useState(false);
+
+    // --- LOGIC FOR SCROLLING ---
+    const toggleVisibility = () => {
+        // Show button if page is scrolled more than 300px
+        if (window.pageYOffset > 300) {
+            setIsVisible(true);
+        } else {
+            setIsVisible(false);
+        }
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // For smooth scrolling
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', toggleVisibility);
+
+        // Cleanup function to remove the listener
+        return () => {
+            window.removeEventListener('scroll', toggleVisibility);
+        };
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -18,8 +49,9 @@ const AppContent = ({ children }) => {
             </main>
             <Footer />
 
-            {/* The actual modal that will show/hide */}
-             <Modal show={!!modalState} onClose={closeModal}>
+            <BackToTopButton isVisible={isVisible} onClick={scrollToTop} />
+
+            <Modal show={!!modalState} onClose={closeModal}>
                 {modalState === 'login' && <LoginForm closeModal={closeModal} />}
                 {modalState === 'register' && <RegisterForm closeModal={closeModal} />}
             </Modal>
@@ -27,8 +59,7 @@ const AppContent = ({ children }) => {
     );
 };
 
-
-// The main export wraps everything in the provider
+// The main export wraps everything in the ModalProvider
 export default function PublicLayout({ children }) {
     return (
         <ModalProvider>

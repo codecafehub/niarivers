@@ -20,14 +20,14 @@ export default function HomeServices({ services }) {
                     ))}
                 </div>
 
-                <div className="text-center mt-12">
+                {/* <div className="text-center mt-12">
                             <Link
                                 href="/services" // Link to a future services page
                                 className="bg-transparent border-2 border-blue-600 text-blue-600 font-bold py-3 px-8 rounded hover:bg-blue-600 hover:text-white transition-all duration-300 text-lg"
                             >
                                  Learn More About Our Services
                             </Link>
-                        </div>
+                        </div> */}
             </div>
         </section>
     );

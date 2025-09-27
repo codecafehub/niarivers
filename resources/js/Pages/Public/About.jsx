@@ -12,59 +12,6 @@ import OurProcess from "@/Components/About/OurProcess";
 import JoinTeam from "@/Components/About/JoinTeam";
 import ChairmanMessage from "@/Components/About/ChairmanMessage";
 
-// --- Static Data ---
-const staticTeamMembers = [
-    {
-        id: 1,
-        name: 'Eleanor Vantage',
-        title: 'Founder & CEO',
-        photoUrl: '/images/cc2.jpg', // Use local images
-    },
-    {
-        id: 2,
-        name: 'Marcus Thorne',
-        title: 'Chief Operating Officer',
-        photoUrl: '/images/cc1.jpg',
-    },
-    {
-        id: 3,
-        name: 'Jenna Sullivan',
-        title: 'Head of Project Management',
-        photoUrl: '/images/about-hero.jpg',
-    },
-     {
-        id: 4,
-        name: 'David Chen',
-        title: 'Lead Architect',
-        photoUrl: '/images/about-hero.jpg',
-    },
-    {
-        id: 4,
-        name: 'David Chen',
-        title: 'Lead Architect',
-        photoUrl: '/images/about-hero.jpg',
-    },
-    {
-        id: 4,
-        name: 'David Chen',
-        title: 'Lead Architect',
-        photoUrl: '/images/about-hero.jpg',
-    },
-     {
-        id: 1,
-        name: 'Eleanor Vantage',
-        title: 'Founder & CEO',
-        photoUrl: '/images/cc2.jpg', // Use local images
-    },
-    {
-        id: 2,
-        name: 'Marcus Thorne',
-        title: 'Chief Operating Officer',
-        photoUrl: '/images/cc1.jpg',
-    },
-    
-];
-// --- End Static Data ---
 
 export default function About({ teamMembers }) {
     return (

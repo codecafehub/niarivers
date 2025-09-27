@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\TeamMember;
 use Inertia\Inertia;
+use App\Models\Project;
+use App\Models\Post;
+use App\Models\TeamMember;
 use App\Services\YouTubeService;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +18,7 @@ class PageController extends Controller
             'id' => $member->id,
             'title' => $member->title,
             'name' => $member->name,
+            'bio' => $member->bio,
             'position' => $member->position,
             'photo_url' => $member->photo_url,
             // Add all the social media links here
@@ -26,6 +28,30 @@ class PageController extends Controller
             'instagram_url' => $member->instagram_url,
         ]);
         
+
+          // --- Fetch Latest Posts ---
+        $latestPosts = Post::whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->with('user') // Eager load the author relationship for efficiency
+            ->latest('published_at')
+            ->take(3)
+            ->get()
+            ->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'slug' => $post->slug,
+                    'excerpt' => $post->excerpt,
+                    'cover_image_url' => $post->cover_image_url, // Assumes you have an accessor on the Post model
+                    'published_at' => $post->published_at->format('M d, Y'), // Format the date nicely
+                    'author' => [
+                        'name' => $post->user ? $post->user->name : 'Nia Rivers Co', // Fallback author name
+                        'photo_url' => $post->user ? $post->user->profile_photo_url : null, // Assuming User model has this accessor
+                    ]
+                ];
+            });
+
+
         // This is a placeholder for the Project mapping logic you already have.
         // I've simplified it here to keep the example focused.
         $featuredProjects = Project::where('is_featured', true)
@@ -37,6 +63,7 @@ class PageController extends Controller
             'featuredProjects' => $featuredProjects,
             // 'videos' => $youtubeService->getLatestVideos(),
             'teamMembers' => $teamMembers,
+            'latestPosts' => $latestPosts,
         ]);
     }
 

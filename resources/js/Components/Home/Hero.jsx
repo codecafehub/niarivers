@@ -6,19 +6,19 @@ import { useState, useEffect } from 'react';
 const slides = [
     {
         id: 1,
-        imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1740&q=80",
-        headline: "BUILDING WITH PURPOSE",
-        subtext: "A commitment to integrity, quality, and community in every project we undertake."
+        imageUrl: "images/fivefinger.jpg",
+        headline: "The Nigeria Institute of Architects",
+        subtext: "Rivers State Chapter."
     },
     {
         id: 2,
-        imageUrl: "https://images.unsplash.com/photo-1694521787162-5373b598945c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        imageUrl: "images/stage.jpg",
         headline: "PRECISION & EXCELLENCE",
         subtext: "Delivering projects on time and on budget with unparalleled attention to detail."
     },
     {
         id: 3,
-        imageUrl: "https://images.unsplash.com/photo-1601021545082-4385509b3074?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        imageUrl: "images/project.jpg",
         headline: "SAFETY FIRST, ALWAYS",
         subtext: "Our rigorous safety standards protect our team, our clients, and the community."
     }

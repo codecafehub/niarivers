@@ -16,6 +16,7 @@ import TeamSection from "@/Components/About/TeamSection";
 // import { Head, Link } from "@inertiajs/react";
 import HomeTeamSection from "@/Components/Home/HomeTeamSection";   
 import PricingSection from "@/Components/Home/PricingSection"; 
+import HomeBlogSection from "@/Components/Home/HomeBlogSection";
 
 // --- STATIC DATA ---
 // Let's create some sample project data.
@@ -167,25 +168,32 @@ const staticTestimonials = [
 // --- END OF STATIC DATA ---
 
 // Notice we remove the `featuredProjects` prop from the function definition for now.
-export default function Home( { teamMembers } ) {
+export default function Home( { teamMembers, latestPosts } ) {
     return (
         <PublicLayout>
             <Head title="Home | Nia Rivers Construction" />
 
             <Hero />
+            <ClientLogos /> 
             <HomeServices services={staticServices} /> {/* Pass the static data as a prop */}
             <AboutSection />
             <StatsSection />
-            <FeaturedProjects projects={staticProjects} />
-               {/* Your check here is also perfect */}
-            {teamMembers && teamMembers.length > 0 && (
+             {teamMembers && teamMembers.length > 0 && (
                 <HomeTeamSection teamMembers={teamMembers} />
             )}
+            {/* <FeaturedProjects projects={staticProjects} /> */}
+               {/* Your check here is also perfect */}
+           
             
 
             {/* <AvailableProperties properties={staticProperties} /> */}
             <VideoSection videos={staticVideos} />
-            <ClientLogos /> 
+
+             {/* Conditionally render the blog section if posts exist */}
+            {latestPosts && latestPosts.length > 0 && (
+                <HomeBlogSection posts={latestPosts} />
+            )}
+            
             {/* <TestimonialSection testimonials={staticTestimonials} />  */}
             <PricingSection />
             <CTASection />

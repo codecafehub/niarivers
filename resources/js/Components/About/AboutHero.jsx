@@ -2,7 +2,7 @@
 import React from 'react';
 // import AboutImg from '@/Assets/about-hero.jpg'; // Ensure you have an appropriate image in your assets
 
-const heroImageUrl = 'images/about-hero.jpg'; 
+const heroImageUrl = 'images/fivefinger.jpg'; 
 export default function AboutHero() {
     return (
         <div className="relative bg-gray-900 h-[70vh] text-white overflow-hidden">

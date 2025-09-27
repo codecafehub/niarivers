@@ -2,7 +2,7 @@
 
 import { Link } from '@inertiajs/react';
 
-const aboutImageUrl = "images/about-hero.jpg";
+const aboutImageUrl = "images/project.jpg";
 
 export default function AboutSection() {
     return (
@@ -10,7 +10,7 @@ export default function AboutSection() {
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     {/* Image Column */}
-                    <div className="wow animate__animated animate__fadeInLeft">
+                    <div className="wow animate__animated animate__fadeInLeft hover:scale-105 transition-transform duration-300 cursor-pointer h-200 md:h-300 lg:h-400">
                         <img
                             src={aboutImageUrl}
                             alt="Nia Rivers team planning a construction project"
@@ -32,14 +32,23 @@ export default function AboutSection() {
                         <p className="text-gray-700 leading-relaxed">
                             From initial planning to final handover, we manage every detail to ensure your project is not only visually stunning but also built to the highest standards of safety and durability.
                         </p>
+                       
+                        <p className="text-gray-700 leading-relaxed mt-4">
+                            Join us on a journey where your vision meets our expertise, resulting in spaces that inspire and endure.
+                        </p>
 
 
                         <div className="text-center mt-12">
-                            <Link
-                                href="/about"
-                                className="bg-transparent border-2 border-blue-600 text-blue-600 font-bold py-3 px-8 rounded hover:bg-blue-600 hover:text-white transition-all duration-300 text-lg"
+                             <Link
+                                href="/about" // This links to the main About Us page
+                                className="inline-flex items-center gap-x-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                             >
-                                More About Our Company
+                                <span>Read More About Us</span>
+                                
+                                {/* Arrow Icon */}
+                                <svg xmlns="http://www.w.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
                             </Link>
                         </div>
 

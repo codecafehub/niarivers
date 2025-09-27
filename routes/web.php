@@ -3,11 +3,13 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ContactFormController;
 
 // Route::get('/', function () {
@@ -29,6 +31,11 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
 Route::get('/careers', [CareerController::class, 'index'])->name('careers.index');
 Route::get('/careers/{jobOpening:slug}', [CareerController::class, 'show'])->name('careers.show');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+
+Route::get('/donation', [DonationController::class, 'create'])->name('donation.create');
+Route::post('/donation', [DonationController::class, 'store'])->name('donation.store');
+Route::get('/donation/thank-you', [DonationController::class, 'thankYou'])->name('donation.thankyou');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -39,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/payment', [PageController::class, 'payment'])->name('payment.show');
+     Route::post('/payment', [DonationController::class, 'submitPaymentProof'])->name('payment.store');
 });
 
 // Admin section for managing content

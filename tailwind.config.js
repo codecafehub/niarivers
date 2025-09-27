@@ -21,5 +21,6 @@ export default {
     plugins: [
         forms,
         require('@tailwindcss/aspect-ratio'),
+        require('@tailwindcss/typography'), // Add the typography plugin
     ],
 };
